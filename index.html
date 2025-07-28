@@ -111,22 +111,28 @@
       }
     }
 
-    .sound-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-      padding: 10px 20px;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 8px;
-    }
-  </style>
-</head>
-<body>
+.sound-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  padding: 16px 32px; /* أكبر */
+  background: rgba(0, 255, 0, 0.2); /* لون مع توهج أخضر */
+  border: 2px solid #00ff00;
+  color: white;
+  font-size: 18px; /* حجم الخط أكبر */
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 12px;
+  box-shadow: 0 0 12px #00ff00;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.sound-btn:hover {
+  background: rgba(0, 255, 0, 0.4);
+  transform: scale(1.05);
+}
+
 
   <!-- خلفية الفيديو -->
   <div class="video-bg">
@@ -142,7 +148,7 @@
   <div class="top-message">CLS MNAYKA 3LIKOM 🌴</div>
 
   <!-- زر تشغيل الصوت -->
-   <button class="sound-btn" onclick="enableSound()">🔊 تشغيل الصوت</button>
+   <button class="sound-btn" onclick="enableSound()">🔊 5ADEM SOUT</button>
 
   <div class="overlay"></div>
 
