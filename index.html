@@ -39,20 +39,53 @@
       z-index: -1;
     }
 
-    /* كتابة في الأعلى مع توهج أخضر */
-    .top-message {
+    .top-message-container {
       position: absolute;
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
+      text-align: center;
+      z-index: 10;
+    }
+
+    .top-message {
       font-size: 50px;
       font-weight: bold;
       color: #00ff00;
-      z-index: 10;
       text-shadow:
         0 0 5px #029b02,
         0 0 10px #02a702,
         0 0 20px #019701,
+        0 0 40px #00ff00;
+    }
+
+    .sound-btn {
+      margin-top: 10px;
+      padding: 12px 24px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ff00;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 12px;
+      text-shadow:
+        0 0 5px #00ff00,
+        0 0 10px #00ff00;
+      box-shadow:
+        0 0 8px #00ff00,
+        0 0 16px #00ff00,
+        0 0 24px #00ff00,
+        0 0 32px #00ff00;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .sound-btn:hover {
+      transform: scale(1.05);
+      box-shadow:
+        0 0 10px #00ff00,
+        0 0 20px #00ff00,
+        0 0 30px #00ff00,
         0 0 40px #00ff00;
     }
 
@@ -110,24 +143,9 @@
         transform: translateY(0);
       }
     }
-
-    .sound-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-      padding: 10px 20px;
-      background: rgba(255, 255, 255, 0.2);
-      border: none;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 8px;
-    }
   </style>
 </head>
 <body>
-
 
   <!-- خلفية الفيديو -->
   <div class="video-bg">
@@ -139,11 +157,11 @@
     </iframe>
   </div>
 
-  <!-- كتابة في أعلى الصفحة بتوهج أخضر -->
-  <div class="top-message">CLS MNAYKA 3LIKOM 🌴</div>
-
-  <!-- زر تشغيل الصوت -->
-   <button class="sound-btn" onclick="enableSound()">🔊 5ADEM SOUT</button>
+  <!-- عنوان وزر الصوت -->
+  <div class="top-message-container">
+    <div class="top-message">CLS MNAYKA 3LIKOM 🌴</div>
+    <button class="sound-btn" onclick="enableSound()">🔊 5ADEM SOUT</button>
+  </div>
 
   <div class="overlay"></div>
 
@@ -184,6 +202,7 @@
 
 </body>
 </html>
+
 
 
 
