@@ -52,6 +52,8 @@
       font-size: 50px;
       font-weight: bold;
       color: #00ff00;
+      opacity: 0;
+      animation: introAnimation 1.5s ease-out forwards, floatPulse 3s ease-in-out infinite;
       text-shadow:
         0 0 5px #029b02,
         0 0 10px #02a702,
@@ -59,8 +61,39 @@
         0 0 40px #00ff00;
     }
 
+    .top-message:nth-child(1) {
+      animation-delay: 0s, 1.5s;
+    }
+
+    .top-message:nth-child(2) {
+      animation-delay: 0.5s, 2s;
+    }
+
+    @keyframes introAnimation {
+      0% {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes floatPulse {
+      0% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-6px) scale(1.05);
+      }
+      100% {
+        transform: translateY(0) scale(1);
+      }
+    }
+
     .sound-btn {
-      margin-top: 60px; /* ⬅️ أنزل الزر أكثر هنا */
+      margin-top: 60px;
       padding: 12px 24px;
       background: rgba(0, 0, 0, 0.8);
       border: 2px solid #00ff00;
@@ -157,7 +190,7 @@
     </iframe>
   </div>
 
-  <!-- عبارة العنوان + زر الصوت -->
+  <!-- الرسائل العلوية المتحركة -->
   <div class="top-message-container">
     <div class="top-message">CLS MNAYKA 3LIKOM</div>
     <div class="top-message">🌴 HAKED BY NAKHLA TEAM 🌴</div>
@@ -172,7 +205,7 @@
     <p>NAKHLA TEAM</p>
   </div>
 
-  <!-- نجوم متحركة -->
+  <!-- النجوم -->
   <script>
     for (let i = 0; i < 60; i++) {
       const sparkle = document.createElement('div');
@@ -195,14 +228,14 @@
       document.querySelector('.sound-btn').style.display = 'none';
     }
 
-    // محاولة تشغيل الصوت تلقائيًا عند النقر
     bgm.play().catch(() => {
-      // ينتظر النقر من المستخدم
+      // انتظار تفاعل المستخدم
     });
   </script>
 
 </body>
 </html>
+
 
 
 
