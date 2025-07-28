@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NAKHLA TEAM ON DUTY</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      height: 100vh;
+      color: white;
+      overflow: hidden;
+      background: black;
+    }
+
+    .video-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .video-bg iframe {
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    /* كتابة في الأعلى مع توهج أخضر */
+    .top-message {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 50px;
+      font-weight: bold;
+      color: #00ff00;
+      z-index: 10;
+      text-shadow:
+        0 0 5px #029b02,
+        0 0 10px #02a702,
+        0 0 20px #019701,
+        0 0 40px #00ff00;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .profile-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid white;
+    }
+
+    h1 {
+      margin: 10px 0 5px;
+      font-size: 28px;
+    }
+
+    p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #ccc;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: white;
+      border-radius: 50%;
+      animation: sparkle 3s infinite ease-in-out;
+      z-index: 3;
+    }
+
+    @keyframes sparkle {
+      0% {
+        opacity: 0;
+        transform: translateY(0);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-10px);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(0);
+      }
+    }
+
+    .sound-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- خلفية الفيديو -->
+  <div class="video-bg">
+    <iframe id="yt-video"
+      src="https://www.youtube.com/embed/LTVKLp8vNTc?autoplay=1&mute=1&loop=1&controls=0&playlist=LTVKLp8vNTc"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- كتابة في أعلى الصفحة بتوهج أخضر -->
+  <div class="top-message">CLS MNAYKA 3LIKOM 🌴</div>
+
+  <!-- زر تشغيل الصوت -->
+  
+
+  <div class="overlay"></div>
+
+  <div class="container">
+    <img src="pfp.jpg" alt="Profile" class="profile-img" />
+    <h1>Андрей</h1>
+    <p>NAKHLA TEAM</p>
+  </div>
+
+  <!-- نجوم متحركة -->
+  <script>
+    for (let i = 0; i < 60; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.style.top = `${Math.random() * 100}%`;
+      sparkle.style.left = `${Math.random() * 100}%`;
+      sparkle.style.animationDuration = `${2 + Math.random() * 3}s`;
+      document.body.appendChild(sparkle);
+    }
+
+    const bgm = new Audio('music.mp3');
+    bgm.loop = true;
+    bgm.volume = 1;
+
+    function enableSound() {
+      bgm.play();
+      const iframe = document.getElementById('yt-video');
+      const videoId = "LTVKLp8vNTc";
+      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&loop=1&controls=0&playlist=${videoId}`;
+      document.querySelector('.sound-btn').style.display = 'none';
+    }
+
+    // محاولة تشغيل الصوت تلقائيًا عند النقر
+    bgm.play().catch(() => {
+      // ينتظر النقر من المستخدم
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
