@@ -1,240 +1,351 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>NAKHLA TEAM ON DUTY</title>
   <style>
+    :root { --glow: #00ff00; }
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
-      padding: 0;
-      font-family: 'Arial', sans-serif;
-      height: 100vh;
-      color: white;
+      height: 100svh;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      background: #000;
       overflow: hidden;
-      background: black;
     }
 
     .video-bg {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       z-index: -2;
       overflow: hidden;
+      background: #000;
     }
-
     .video-bg iframe {
-      width: 100vw;
-      height: 100vh;
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 120vw;
+      height: 120vh;
+      transform: translate(-50%, -50%);
       pointer-events: none;
     }
 
     .overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
       z-index: -1;
+    }
+
+    #stars {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    #tapHint {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      z-index: 20;
+      background: rgba(0,0,0,0.35);
+      -webkit-backdrop-filter: blur(2px);
+      backdrop-filter: blur(2px);
+      cursor: pointer;
+    }
+    #tapHint .hint {
+      font-size: clamp(16px, 3.5vw, 22px);
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(0,0,0,0.55);
+      box-shadow: 0 0 12px rgba(255,255,255,0.15);
     }
 
     .top-message-container {
       position: absolute;
-      top: 20px;
+      top: 16px;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
       z-index: 10;
+      display: grid;
+      gap: 6px;
     }
 
     .top-message {
-      font-size: 50px;
-      font-weight: bold;
-      color: #00ff00;
-      opacity: 0;
-      animation: introAnimation 1.5s ease-out forwards, floatPulse 3s ease-in-out infinite;
+      font-size: clamp(28px, 6vw, 50px);
+      font-weight: 800;
+      color: var(--glow);
       text-shadow:
         0 0 5px #029b02,
         0 0 10px #02a702,
         0 0 20px #019701,
-        0 0 40px #00ff00;
+        0 0 40px var(--glow);
+      opacity: 0;
+      transform: translateY(-24px) scale(0.9);
+      animation: intro 700ms ease-out forwards;
+    }
+    .top-message:nth-child(1) { animation-delay: 0ms; }
+    .top-message:nth-child(2) { animation-delay: 250ms; }
+
+    .top-message > .pulse {
+      display: inline-block;
+      animation: pulse 2600ms ease-in-out infinite 1.2s;
     }
 
-    .top-message:nth-child(1) {
-      animation-delay: 0s, 1.5s;
+    @keyframes intro {
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
-
-    .top-message:nth-child(2) {
-      animation-delay: 0.5s, 2s;
-    }
-
-    @keyframes introAnimation {
-      0% {
-        opacity: 0;
-        transform: translateY(-40px) scale(0.8);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes floatPulse {
-      0% {
-        transform: translateY(0) scale(1);
-      }
-      50% {
-        transform: translateY(-6px) scale(1.05);
-      }
-      100% {
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    .sound-btn {
-      margin-top: 60px;
-      padding: 12px 24px;
-      background: rgba(0, 0, 0, 0.8);
-      border: 2px solid #00ff00;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 16px;
-      border-radius: 12px;
-      text-shadow:
-        0 0 5px #00ff00,
-        0 0 10px #00ff00;
-      box-shadow:
-        0 0 8px #00ff00,
-        0 0 16px #00ff00,
-        0 0 24px #00ff00,
-        0 0 32px #00ff00;
-      transition: transform 0.2s ease, box-shadow 0.3s ease;
-    }
-
-    .sound-btn:hover {
-      transform: scale(1.05);
-      box-shadow:
-        0 0 10px #00ff00,
-        0 0 20px #00ff00,
-        0 0 30px #00ff00,
-        0 0 40px #00ff00;
+    @keyframes pulse {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(-6px) scale(1.05); }
     }
 
     .container {
       position: relative;
       z-index: 2;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      height: 100svh;
+      display: grid;
+      place-items: center;
       text-align: center;
+      padding: 16px;
+    }
+
+    .card {
+      display: grid;
+      justify-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 18px 22px;
+      border-radius: 16px;
+      backdrop-filter: blur(4px);
     }
 
     .profile-img {
-      width: 190px;
-      height: 190px;
+      width: 168px;
+      height: 168px;
       border-radius: 50%;
       object-fit: cover;
-      border: 3px solid white;
+      border: 3px solid #fff;
+      box-shadow: 0 0 12px rgba(255,255,255,0.25);
     }
 
-    h1 {
-      margin: 10px 0 5px;
-      font-size: 28px;
-    }
+    h1 { margin: 6px 0 0; font-size: clamp(22px, 4.5vw, 28px); }
+    p  { margin: 4px 0 0; font-size: 14px; color: #ccc; }
 
-    p {
-      margin: 5px 0;
-      font-size: 14px;
-      color: #ccc;
-    }
-
-    .sparkle {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      background: white;
-      border-radius: 50%;
-      animation: sparkle 3s infinite ease-in-out;
-      z-index: 3;
-    }
-
-    @keyframes sparkle {
-      0% {
-        opacity: 0;
-        transform: translateY(0);
-      }
-      50% {
-        opacity: 1;
-        transform: translateY(-10px);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(0);
-      }
+    @media (prefers-reduced-motion: reduce) {
+      .top-message, .top-message > .pulse { animation: none !important; }
     }
   </style>
 </head>
 <body>
 
   <!-- خلفية الفيديو -->
-  <div class="video-bg">
+  <div class="video-bg" aria-hidden="true">
     <iframe id="yt-video"
-      src="https://www.youtube.com/embed/LTVKLp8vNTc?autoplay=1&mute=1&loop=1&controls=0&playlist=LTVKLp8vNTc"
+      src="https://www.youtube.com/embed/CoJjI5PZJ10?autoplay=1&mute=1&loop=1&controls=0&playlist=CoJjI5PZJ10&modestbranding=1&playsinline=1"
+      title="Background video"
       frameborder="0"
-      allow="autoplay; encrypted-media"
+      allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+      referrerpolicy="origin-when-cross-origin"
       allowfullscreen>
     </iframe>
   </div>
 
-  <!-- الرسائل العلوية المتحركة -->
-  <div class="top-message-container">
-    <div class="top-message">CLS MNAYKA 3LIKOM</div>
-    <div class="top-message">🌴 HAKED BY NAKHLA TEAM 🌴</div>
-    <button class="sound-btn" onclick="enableSound()">🔊 5ADEM SOUT</button>
+  <div class="overlay" aria-hidden="true"></div>
+  <canvas id="stars" aria-hidden="true"></canvas>
+
+  <!-- الرسائل العلوية -->
+  <div class="top-message-container" role="region" aria-label="Status">
+    <div class="top-message"><span class="pulse">CLS MNAYKA 3LIKOM</span></div>
+    <div class="top-message"><span class="pulse">🌴 HAKED BY NAKHLA TEAM 🌴</span></div>
   </div>
 
-  <div class="overlay"></div>
-
+  <!-- الصورة والمعلومات -->
   <div class="container">
-    <img src="pfp.jpg" alt="Profile" class="profile-img" />
-    <h1>Андрей</h1>
-    <p>NAKHLA TEAM</p>
+    <div class="card">
+      <img src="pfp.jpg" alt="Profile" class="profile-img">
+      <h1>🌴 Андрей 🌴</h1>
+      <p>NAKHLA TEAM</p>
+    </div>
   </div>
 
-  <!-- النجوم -->
+  <div id="tapHint"><div class="hint">اضغط في أي مكان لتفعيل الصوت 🔊</div></div>
+
   <script>
-    for (let i = 0; i < 60; i++) {
-      const sparkle = document.createElement('div');
-      sparkle.classList.add('sparkle');
-      sparkle.style.top = `${Math.random() * 100}%`;
-      sparkle.style.left = `${Math.random() * 100}%`;
-      sparkle.style.animationDuration = `${2 + Math.random() * 3}s`;
-      document.body.appendChild(sparkle);
-    }
+    (function starfield() {
+      const canvas = document.getElementById('stars');
+      const ctx = canvas.getContext('2d', { alpha: true });
+
+      let stars = [];
+      let width = 0, height = 0, dpr = 1;
+      let running = true;
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      function rand(min, max) { return Math.random() * (max - min) + min; }
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+        canvas.style.width = width + 'px';
+        canvas.style.height = height + 'px';
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const density = 0.00018;
+        const target = Math.round(width * height * density);
+        if (stars.length < target) {
+          for (let i = stars.length; i < target; i++) stars.push(makeStar());
+        } else if (stars.length > target) {
+          stars.length = target;
+        }
+      }
+
+      function makeStar() {
+        return {
+          x: rand(0, width),
+          y: rand(0, height),
+          r: rand(0.6, 1.8),
+          vy: rand(-0.12, -0.04),
+          tw: rand(0.8, 1.8),
+          phase: rand(0, Math.PI*2)
+        };
+      }
+
+      function update(dt) {
+        for (let s of stars) {
+          s.y += s.vy * dt;
+          if (s.y < -2) { s.y = height + 2; s.x = rand(0, width); }
+          s.phase += s.tw * dt * 0.002;
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, width, height);
+        ctx.globalCompositeOperation = 'lighter';
+        for (let s of stars) {
+          const glow = (1 + Math.cos(s.phase)) * 0.5;
+          const alpha = 0.35 + glow * 0.65;
+          ctx.globalAlpha = alpha;
+          ctx.shadowBlur = 6;
+          ctx.shadowColor = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff';
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+      }
+
+      let last = performance.now();
+      let anim = null;
+
+      function loop(now) {
+        if (!running) return;
+        const dt = Math.min(50, now - last);
+        last = now;
+        update(dt);
+        draw();
+        anim = requestAnimationFrame(loop);
+      }
+
+      function start() {
+        if (anim) return;
+        running = true;
+        last = performance.now();
+        anim = requestAnimationFrame(loop);
+      }
+      function stop() {
+        running = false;
+        if (anim) cancelAnimationFrame(anim);
+        anim = null;
+      }
+
+      resize();
+      if (!reduceMotion.matches && document.visibilityState === 'visible') start();
+      else draw();
+
+      window.addEventListener('resize', () => { resize(); if (reduceMotion.matches) draw(); });
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible' && !reduceMotion.matches) start();
+        else stop();
+      });
+      reduceMotion.addEventListener?.('change', (e) => {
+        if (e.matches) { stop(); draw(); }
+        else if (document.visibilityState === 'visible') start();
+      });
+    })();
 
     const bgm = new Audio('music.mp3');
     bgm.loop = true;
     bgm.volume = 1;
 
-    function enableSound() {
-      bgm.play();
-      const iframe = document.getElementById('yt-video');
-      const videoId = "LTVKLp8vNTc";
-      iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&loop=1&controls=0&playlist=${videoId}`;
-      document.querySelector('.sound-btn').style.display = 'none';
+    let audioCtx;
+    async function ensureAudioContext() {
+      try {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return;
+        if (!audioCtx) audioCtx = new Ctx();
+        if (audioCtx.state === 'suspended') await audioCtx.resume();
+      } catch (e) { /* ignore */ }
     }
 
-    bgm.play().catch(() => {
-      // انتظار تفاعل المستخدم
+    async function tryAutoStartBgm() {
+      try {
+        await ensureAudioContext();
+        await bgm.play();
+        hideTapHint();
+        return true;
+      } catch (err) {
+        showTapHint();
+        return false;
+      }
+    }
+
+    function showTapHint() {
+      const hint = document.getElementById('tapHint');
+      if (hint) hint.style.display = 'flex';
+    }
+    function hideTapHint() {
+      const hint = document.getElementById('tapHint');
+      if (hint) hint.style.display = 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      tryAutoStartBgm();
+    });
+
+    const userKickstart = async () => {
+      const ok = await tryAutoStartBgm();
+      if (ok) {
+        document.removeEventListener('pointerdown', userKickstart, { passive: true });
+        document.getElementById('tapHint')?.removeEventListener('pointerdown', userKickstart, { passive: true });
+        hideTapHint();
+      }
+    };
+    document.addEventListener('pointerdown', userKickstart, { passive: true });
+    document.getElementById('tapHint')?.addEventListener('pointerdown', userKickstart, { passive: true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && bgm.paused) tryAutoStartBgm();
     });
   </script>
 
 </body>
 </html>
+
 
 
 
